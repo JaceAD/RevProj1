@@ -9,4 +9,19 @@
   	<servlet-name>mainServlet</servlet-name>
   	<servlet-class>com.revature.project1.servlets.MainServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+  	<servlet-name>mainServlet</servlet-name>
+  	<url-pattern>/servlet/*</url-pattern>
+  </servlet-mapping>
+  
+  <filter>
+    <filter-name>LoggedFilter</filter-name>
+    <filter-class>com.revature.project1.filters.LoggedInFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>LoggedFilter</filter-name>
+    <servlet-name>mainServlet</servlet-name>
+</filter-mapping>
+ 
 </web-app>
