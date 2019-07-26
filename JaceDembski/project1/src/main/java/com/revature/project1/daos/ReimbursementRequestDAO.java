@@ -103,6 +103,28 @@ public class ReimbursementRequestDAO {
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+	}
+	
+	public static void updateRequest(ReimbursementRequest reim) {
+		try(Connection conn = ConnectionFactory.getConnection()) {
+			System.out.println(reim.getEmpId());
+			String sql = "UPDATE REIMBURSEMENT_REQUESTS SET "
+					+ "EMP_ID = ?, AMOUNT = ?, STATUS = ?, RESOLVED_BY = ?, DETAILS = ?, LAST_UPDATE = ? "
+					+ " WHERE TICKET_NO = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			st.setInt(1, reim.getEmpId());
+			st.setInt(2, reim.getAmount());
+			st.setString(3, reim.getStatus());
+			st.setInt(4, reim.getResolvedBy());
+			st.setString(5, reim.getDetails());
+			st.setDate(6, Date.valueOf(LocalDate.now()));
+			
+			st.setInt(7, reim.getTicketNo());
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

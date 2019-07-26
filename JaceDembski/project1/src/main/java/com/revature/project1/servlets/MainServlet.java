@@ -109,6 +109,12 @@ public class MainServlet extends HttpServlet {
 		case("/project1/servlet/loadEmpReqs"):
 			respondWithReimReqsForTargetEmployee(req, resp);
 			break;
+		case("/project1/servlet/rejectRequest"):
+			rejectReq(req, resp);
+			break;
+		case("/project1/servlet/approveRequest"):
+			approveReq(req, resp);
+			break;
 		}
 	}
 	
@@ -223,6 +229,50 @@ public class MainServlet extends HttpServlet {
 				ReimbursementRequestDAO.getRequestsByEmpId(
 						Integer.parseInt(req.getParameter("empId").toString())
 						)));
+	}
+	
+	public void approveReq (HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int ticketNumber = Integer.parseInt(req.getParameter("ticketNo").toString());
+		ReimbursementRequest reimReq = ReimbursementRequestDAO.getRequestByTicket(ticketNumber);
+		reimReq.setStatus("approved");
+		Employee emp = EmployeeDAO.getEmployeeById(Integer.parseInt(req.getSession().getAttribute("userId").toString()));
+		reimReq.setResolvedBy(emp.getId());
+		reimReq.setLastUpdate(LocalDateTime.now());
+		ReimbursementRequestDAO.updateRequest(reimReq);
+		if(String.valueOf(emp.getAccessLvl()).toUpperCase().equals("B"))
+		{
+			System.out.println("redir to emp_home");
+			resp.setHeader("returnPoint", "/project1/employee_home.html");
+			//resp.sendRedirect("/project1/employee_home.html");
+		}
+		else if(String.valueOf(emp.getAccessLvl()).toUpperCase().equals("M"))
+		{
+			System.out.println("redir to man_home");
+			resp.setHeader("returnPoint", "/project1/manager_home.html");
+			//resp.sendRedirect("/project1/manager_home.html");
+		}
+	}
+	
+	public void rejectReq (HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int ticketNumber = Integer.parseInt(req.getParameter("ticketNo").toString());
+		ReimbursementRequest reimReq = ReimbursementRequestDAO.getRequestByTicket(ticketNumber);
+		reimReq.setStatus("rejected");
+		Employee emp = EmployeeDAO.getEmployeeById(Integer.parseInt(req.getSession().getAttribute("userId").toString()));
+		reimReq.setResolvedBy(emp.getId());
+		reimReq.setLastUpdate(LocalDateTime.now());
+		ReimbursementRequestDAO.updateRequest(reimReq);
+		if(String.valueOf(emp.getAccessLvl()).toUpperCase().equals("B"))
+		{
+			System.out.println("redir to emp_home");
+			resp.setHeader("returnPoint", "/project1/employee_home.html");
+			//resp.sendRedirect("/project1/employee_home.html");
+		}
+		else if(String.valueOf(emp.getAccessLvl()).toUpperCase().equals("M"))
+		{
+			System.out.println("redir to man_home");
+			resp.setHeader("returnPoint", "/project1/manager_home.html");
+			//resp.sendRedirect("/project1/manager_home.html");
+		}
 	}
 	
 	public void respondWithSetReimReq(HttpServletRequest req, HttpServletResponse resp) throws IOException {

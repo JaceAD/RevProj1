@@ -76,11 +76,6 @@ public class EmployeeDAO {
 	
 	public static void updateEmployee(Employee emp) {
 		try(Connection conn = ConnectionFactory.getConnection()) {
-			/*
-			 * "UPDATE Monster"
-                        + "SET monster_type = ?, monster_level = ?"
-                        + "WHERE monster_id = ?";
-			 */
 			String sql = "UPDATE EMPLOYEES SET "
 					+ "EMP_FNAME = ?, EMP_LNAME = ?, EMP_PASSWORD = ?, EMP_EMAIL = ?, EMP_ACCESS_LEVEL = ? "
 					+ " WHERE EMP_ID = ?";
