@@ -4,4 +4,4 @@ document.getElementById("SubmitLink").onclick = () => {
 
 document.getElementById("UpdateInfoLink").onclick = () => {
     location.href = "http://localhost:8080/project1/servlet/redirInfoChange";
-}
+};

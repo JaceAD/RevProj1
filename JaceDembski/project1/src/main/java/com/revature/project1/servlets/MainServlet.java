@@ -61,6 +61,9 @@ public class MainServlet extends HttpServlet {
 			System.out.println("Redir to request submission");
 			resp.sendRedirect("/project1/reimbursement_submission.html");
 			break;
+		case "/project1/servlet/redirRegEmp":
+			resp.sendRedirect("/project1/registration.html");
+			break;
 		case "/project1/servlet/redirInfoChange":
 			System.out.println("Redir to info change");
 			resp.sendRedirect("/project1/update_info.html");
@@ -114,6 +117,9 @@ public class MainServlet extends HttpServlet {
 			break;
 		case("/project1/servlet/approveRequest"):
 			approveReq(req, resp);
+			break;
+		case("/project1/servlet/regEmp"):
+			registerEmp(req, resp);
 			break;
 		}
 	}
@@ -176,6 +182,14 @@ public class MainServlet extends HttpServlet {
 		EmployeeDAO.updateEmployee(emp);
 		System.out.println("redirecting back");
 		resp.sendRedirect("/project1/update_info.html");
+	}
+	
+	public void registerEmp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		int empId = 1;
+		Employee emp = new Employee(empId, req.getParameter("FirstName"), req.getParameter("LastName"),
+				req.getParameter("Password"), req.getParameter("Email"), req.getParameter("AccessLevel").charAt(0));
+		EmployeeDAO.addEmployee(emp);
+		resp.sendRedirect("/project1/registration.html");
 	}
 	
 	public void updatePassword(HttpServletRequest req, HttpServletResponse resp) throws IOException {

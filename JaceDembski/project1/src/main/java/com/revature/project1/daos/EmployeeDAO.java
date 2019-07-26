@@ -58,14 +58,13 @@ public class EmployeeDAO {
 	public static void addEmployee(Employee emp) {
 		try(Connection conn = ConnectionFactory.getConnection()) {
 			String sql = "INSERT INTO EMPLOYEES (EMP_ID, EMP_FNAME, EMP_LNAME, EMP_PASSWORD, EMP_EMAIL, EMP_ACCESS_LEVEL) "
-					+ " VALUES (?,?,?,?,?,?)";
+					+ " VALUES (null, ?,?,?,?,?)";
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, emp.getId());
-			st.setString(2, emp.getfName());
-			st.setString(3, emp.getlName());
-			st.setString(4, emp.getpWord());
-			st.setString(5, emp.getEmail());
-			st.setString(6, String.valueOf(emp.getAccessLvl()));
+			st.setString(1, emp.getfName());
+			st.setString(2, emp.getlName());
+			st.setString(3, emp.getpWord());
+			st.setString(4, emp.getEmail());
+			st.setString(5, String.valueOf(emp.getAccessLvl()));
 			st.executeUpdate();
 		}
 		catch(SQLException e) {
